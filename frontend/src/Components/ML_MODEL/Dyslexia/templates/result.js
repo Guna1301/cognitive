@@ -31,27 +31,36 @@ function DResult() {
     }
 
     return (
-        <div className='d-flex align-items-center justify-content-center z-2'>
-            <div className='d-flex mt-5 shadow-lg rounded-5 flex-column w-50 gap-3 pt-5 ps-5 h-100'>
-                <p className="d-flex align-items-center justify-content-center">Thank you for submitting the survey!</p>
-                {submitted ? (
-                    <div>
-                        {resp !== null && (
-                            <div className="d-flex flex-column align-content-center justify-content-center">
-                                <p>Your Score: {resp.output}</p>
-                                <p>{resp.prediction}</p>
-                                <p>{resp.result}</p>
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <Button onClick={handleSubmit}>
-                        Submit
-                    </Button>
-                )}
+  <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light p-4 z-2">
+    <div className="bg-white shadow-lg rounded-5 d-flex flex-column w-50 gap-4 p-5">
+      
+      <h2 className="text-center mb-3" style={{ fontFamily: 'Poppins', fontWeight: 600 }}>
+        Thank you for submitting the survey!
+      </h2>
+
+      {submitted ? (
+        <div className="d-flex flex-column align-items-center gap-2">
+          {resp !== null && (
+            <div className="text-center">
+              <p className="mb-1" style={{ fontFamily: 'Poppins' }}>{resp.prediction}</p>
+              <p className="mb-0" style={{ fontFamily: 'Poppins' }}>{resp.result}</p>
             </div>
+          )}
         </div>
-    )
+      ) : (
+        <div className="d-flex justify-content-center">
+          <button
+            className="btn btn-success px-4 py-2"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+);
+
 }
 
 export default DResult;

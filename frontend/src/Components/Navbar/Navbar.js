@@ -1,71 +1,82 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo2 from "../Navbar/bw2.jpg";
+import { useTheme } from "../context/ThemeContext";
+import logo2 from "../Navbar/logo.svg";
 import user_icon from "../Navbar/user-circle.png";
 
 function TopNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isDark, setIsDark } = useTheme();
 
   const [propt, setpropert] = useState(localStorage.getItem("name"));
   const [signup, isSignup] = useState(false);
-
-  useEffect(() => {
-    setpropert(localStorage.getItem("name"));
-    isSignup(localStorage.getItem("name") !== null && localStorage.getItem("name") !== "");
-  }, [setpropert, location]);
-
   const [isHidden, setIsHidden] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
+    const name = localStorage.getItem("name");
+    setpropert(name);
+    isSignup(name !== null && name !== "");
     setIsHidden(location.pathname === "/Login");
   }, [location]);
 
-  function handleclick() {
+  function handleLogout() {
     localStorage.clear();
     isSignup(false);
     navigate("/");
   }
 
   return (
-    <nav className="bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between shadow-md">
-      <a href="/" className="flex items-center text-lg font-semibold text-gray-800">
-        <img src={logo2} className="h-12 mr-2" alt="logo" />
+    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between shadow-md">
+      <a href="/" className="flex items-center text-xl font-bold text-gray-800 dark:text-white tracking-wide">
+        <img src={logo2} className="h-12 mr-3 rounded-lg" alt="logo" />
         BRAINWAVE
       </a>
+
       {!isHidden && (
-        <div className="flex items-center gap-4">
-          <a href="/" className="text-gray-700 hover:text-blue-600 font-medium">
+        <div className="flex items-center gap-6">
+          <a href="/" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
             Home
           </a>
+
           {signup ? (
             <>
-              <a href="/Dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
+              <a href="/Dashboard" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
                 Dashboard
               </a>
-              <a href="/gamepage" className="text-gray-700 hover:text-blue-600 font-medium">
+              <a href="/gamepage" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
                 Activities
               </a>
-              <div className="relative group">
+
+              <div className="relative">
                 <img
                   src={user_icon}
                   alt="User"
-                  className="w-10 h-10 rounded-full cursor-pointer"
+                  onClick={() => setDropdownOpen(!isDropdownOpen)}
+                  className="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300 dark:border-gray-600"
                 />
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-4 hidden group-hover:block">
-                  <p className="text-sm text-gray-600">Welcome back,</p>
-                  <p className="text-md font-semibold text-gray-800">{propt}</p>
+
+                {isDropdownOpen && (
+                <div className="absolute right-0 mt-3 w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl p-4 z-50">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Welcome back,</p>
+                  <p className="text-md font-semibold text-gray-800 dark:text-white truncate">{propt}</p>
+                  
                   <button
-                    onClick={handleclick}
-                    className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-full text-sm"
+                    onClick={handleLogout}
+                    className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-full text-sm transition"
                   >
                     Logout
                   </button>
+
+              
                 </div>
+              )}  
+
               </div>
             </>
           ) : (
-            <a href="/Login" className="text-gray-700 hover:text-blue-600 font-medium">
+            <a href="/Login" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
               Login
             </a>
           )}

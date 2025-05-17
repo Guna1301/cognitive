@@ -161,52 +161,81 @@ function DSurvey() {
       };
     
       return (
-        
-    <div className='servey d-flex align-items-center justify-content-center  z-2 '>
-    
-        <div className='d-flex  mt-5 shadow-lg rounded-5 flex-column w-50  gap-3  pt-5 ps-5  h-100'>
-            <div className='progress-container' >
-            <div
-           className={`progress-bar ${animate ? 'animate' : ''}`}
-           style={{ width: `${progress}%`}}
-            />
+  <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className="bg-white shadow-2xl rounded-3xl p-6 w-full max-w-3xl">
+      <div className="w-full bg-gray-200 h-4 rounded-full mb-6 overflow-hidden">
+        <div
+          className={`h-full bg-blue-500 transition-all duration-500 ${animate ? 'animate-pulse' : ''}`}
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      <h2 className="text-2xl font-bold mb-6 text-center">Survey Form</h2>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        {questions.length > 0 && (
+          <div className="flex flex-col gap-4">
+            <p className="text-lg font-semibold" style={{ fontFamily: 'Poppins' }}>
+              {questions[currentQuestionIndex].text}
+            </p>
+            <div className="flex flex-col gap-3">
+              {questions[currentQuestionIndex].options.map((option) => (
+                <label
+                  key={option}
+                  className="flex items-center gap-3 text-base font-medium"
+                  style={{ fontFamily: 'Poppins' }}
+                >
+                  <input
+                    type="radio"
+                    name={`question_${currentQuestionIndex}`}
+                    value={option}
+                    checked={answers[currentQuestionIndex] === option}
+                    onChange={() => handleRadioChange(option)}
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
-    
-    
-          <h2>Survey Form</h2>
-            <form onSubmit={handleSubmit}>
-              {questions.length > 0 && (
-                <div className='d-flex flex-column align-items-start justify-content-center h-100'>
-                  <p style={{fontFamily: 'Poppins', fontWeight: "600", fontSize: "18px"}} >{questions[currentQuestionIndex].text}</p>
-                  {questions[currentQuestionIndex].options.map((option) => (
-                    <label key={option} className='d-flex  flex-row gap-1 m-1' style={{fontFamily: 'Poppins', fontSize: "18px"}}>
-                      <input
-                        type="radio"
-                        name={`question_${currentQuestionIndex}`}
-                        value={option}
-                        checked={answers[currentQuestionIndex] === option}
-                        onChange={() => handleRadioChange(option)}
-                      />
-                      {option}
-                    </label>
-                  ))}
-                </div>
-              )}
-              <div>
-              <button type="button" onClick={handlePrev} className=' btn' disabled={currentQuestionIndex === 0}>
-                Previous
-              </button>
-              <button type="button" onClick={handleNext} className=' btn' disabled={currentQuestionIndex === questions.length - 1 || answers[currentQuestionIndex] === undefined }>
-                Next
-              </button>
-              {currentQuestionIndex === questions.length - 1 && (
-                <button className='btn  ' disabled={answers[currentQuestionIndex] === undefined } type="submit">Submit</button>
-              )}
-              </div>
-            </form>
+        )}
+
+        <div className="flex gap-4 justify-center">
+          <button
+            type="button"
+            onClick={handlePrev}
+            disabled={currentQuestionIndex === 0}
+            className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 disabled:opacity-50"
+          >
+            Previous
+          </button>
+
+          <button
+            type="button"
+            onClick={handleNext}
+            disabled={
+              currentQuestionIndex === questions.length - 1 ||
+              answers[currentQuestionIndex] === undefined
+            }
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+          >
+            Next
+          </button>
+
+          {currentQuestionIndex === questions.length - 1 && (
+            <button
+              type="submit"
+              disabled={answers[currentQuestionIndex] === undefined}
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 disabled:opacity-50"
+            >
+              Submit
+            </button>
+          )}
         </div>
-        </div>
-      );
+      </form>
+    </div>
+  </div>
+);
+
   }
 
 export default DSurvey

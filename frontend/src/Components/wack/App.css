@@ -1,8 +1,7 @@
-.wackgameb{
-  background-color: #2D4B96;
+.wackgameb {
+  background-image: linear-gradient(to bottom right, #fbcfe8, #bfdbfe);
   -webkit-tap-highlight-color: transparent;
 }
-
 .main-container {
   letter-spacing: 0.2rem;
   color: white;

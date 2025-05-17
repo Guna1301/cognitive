@@ -390,120 +390,137 @@ function DQuiz() {
   }
 
   return (
-
-    <div>
-      {!signup ? (
-        <div>
-          <p>Please Signup to continue</p>
-          <button onClick={handlenav}>Signup</button>
-        </div>
-      ) : (
-    <div>
-      {!submitted ? (
-        <div>
-          {!Agesubmitted ? (
-            <div className="age-form-container">
-              <h2>Enter Your Age</h2>
-              <form onSubmit={handleAgeSubmit}>
-                <input
-                  type="number"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  placeholder="Enter your age"
-                  className="age-input" 
-                />
-                <button type="submit" className="age-submit-button">Submit</button>
-              </form>
-            </div>
-          ) : null}
-          {questions.length > 0 && (
-            <div className='servey d-flex align-items-center justify-content-center  z-2 '>
-    
-            <div className='d-flex  mt-5 shadow-lg rounded-5 flex-column w-50  gap-3  pt-5 ps-5  h-100'>
-                <div className='progress-container' >
-                <div
-               className={`progress-bar ${animate ? 'animate' : ''}`}
-               style={{ width: `${progress}%`}}
-                />
+  <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    {!signup ? (
+      <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md text-center">
+        <p className="text-lg font-semibold mb-4">Please Signup to continue</p>
+        <button onClick={handlenav} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Signup
+        </button>
+      </div>
+    ) : (
+      <div className="w-full">
+        {!submitted ? (
+          <div className="w-full flex flex-col items-center">
+            {!Agesubmitted && (
+              <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md mb-6">
+                <h2 className="text-xl font-bold mb-4">Enter Your Age</h2>
+                <form onSubmit={handleAgeSubmit} className="flex flex-col gap-4">
+                  <input
+                    type="number"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    placeholder="Enter your age"
+                    className="border rounded-lg px-4 py-2"
+                  />
+                  <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+                    Submit
+                  </button>
+                </form>
               </div>
-              <h2>Quiz</h2>
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <p>{questions[currentQuestionIndex].text}</p>
-                  {(questions[currentQuestionIndex].img1 || questions[currentQuestionIndex].img2) && (
-                    <div className="img-container">
-                      {questions[currentQuestionIndex].mp3!=="null" && (
-                        <audio controls>
-                          <source src={questions[currentQuestionIndex].mp3} type="audio/mpeg" />
-                          Your browser does not support the audio element.
-                        </audio>
-                      )}
-                      {questions[currentQuestionIndex].img1!=="null" && (
-                        <img src={questions[currentQuestionIndex].img1} alt="Image 1" />
-                      )}
-                      {questions[currentQuestionIndex].img2 !=="null"&& (
-                        <img src={questions[currentQuestionIndex].img2} alt="Image 2" />
-                      )}
-                    </div>
-                  )}
-                  {questions[currentQuestionIndex].options.map((option, index) => (
-                    <div key={index}>
-                      <input
-                        type="radio"
-                        id={option}
-                        name="option"
-                        value={option}
-                        checked={answers[currentQuestionIndex] === option}
-                        onChange={() => handleRadioChange(option)}
-                      />
-                      <label htmlFor={option}>{option}</label>
-                    </div>
-                  ))}
+            )}
+
+            {questions.length > 0 && (
+              <div className="bg-white shadow-2xl rounded-2xl p-6 w-full max-w-3xl">
+                <div className="w-full bg-gray-200 h-4 rounded-full mb-6 overflow-hidden">
+                  <div
+                    className={`h-full bg-blue-500 transition-all duration-500 ${animate ? 'animate-pulse' : ''}`}
+                    style={{ width: `${progress}%` }}
+                  />
                 </div>
-                <div className="quiz-buttons">
-                  <button
-                    type="button"
-                    onClick={handlePrev}
-                    disabled={currentQuestionIndex === 0}
-                    className="prev-button"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    disabled={
-                      currentQuestionIndex === questions.length - 1 ||
-                      answers[currentQuestionIndex] === undefined
-                    }
-                    className="next-button"
-                  >
-                    Next
-                  </button>
-                  {currentQuestionIndex === questions.length - 1 && (
+                <h2 className="text-2xl font-bold mb-4">Quiz</h2>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  <div>
+                    <p className="text-lg font-medium mb-2">{questions[currentQuestionIndex].text}</p>
+
+                    {(questions[currentQuestionIndex].img1 !== "null" ||
+                      questions[currentQuestionIndex].img2 !== "null" ||
+                      questions[currentQuestionIndex].mp3 !== "null") && (
+                      <div className="flex flex-col md:flex-row gap-4 items-center mb-4">
+                        {questions[currentQuestionIndex].mp3 !== "null" && (
+                          <audio controls className="w-full">
+                            <source src={questions[currentQuestionIndex].mp3} type="audio/mpeg" />
+                            Your browser does not support the audio element.
+                          </audio>
+                        )}
+                        {questions[currentQuestionIndex].img1 !== "null" && (
+                          <img
+                            src={questions[currentQuestionIndex].img1}
+                            alt="Image 1"
+                            className="w-32 h-32 object-cover rounded-md"
+                          />
+                        )}
+                        {questions[currentQuestionIndex].img2 !== "null" && (
+                          <img
+                            src={questions[currentQuestionIndex].img2}
+                            alt="Image 2"
+                            className="w-32 h-32 object-cover rounded-md"
+                          />
+                        )}
+                      </div>
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                      {questions[currentQuestionIndex].options.map((option, index) => (
+                        <label key={index} className="flex items-center gap-2">
+                          <input
+                            type="radio"
+                            id={option}
+                            name="option"
+                            value={option}
+                            checked={answers[currentQuestionIndex] === option}
+                            onChange={() => handleRadioChange(option)}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 mt-4">
                     <button
-                      disabled={answers[currentQuestionIndex] === undefined}
-                      type="submit"
-                      className="submit-button"
+                      type="button"
+                      onClick={handlePrev}
+                      disabled={currentQuestionIndex === 0}
+                      className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 disabled:opacity-50"
                     >
-                      Submit
+                      Previous
                     </button>
-                  )}
-                </div>
-              </form>
-            </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>
-          <h2>Quiz Submitted</h2>
-        </div>
-      )}
-    </div>
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      disabled={
+                        currentQuestionIndex === questions.length - 1 ||
+                        answers[currentQuestionIndex] === undefined
+                      }
+                      className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                    {currentQuestionIndex === questions.length - 1 && (
+                      <button
+                        type="submit"
+                        disabled={answers[currentQuestionIndex] === undefined}
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 disabled:opacity-50"
+                      >
+                        Submit
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="bg-white shadow-lg rounded-2xl p-6 text-center max-w-md mx-auto">
+            <h2 className="text-2xl font-bold text-green-600">Quiz Submitted</h2>
+          </div>
+        )}
+      </div>
     )}
-    </div>
-  );
+  </div>
+);
+
   
 }
 

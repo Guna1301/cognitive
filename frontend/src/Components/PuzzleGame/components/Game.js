@@ -106,73 +106,81 @@ export default function Game({ level, onLevelCompletion }) {
   };
 
   return (
-    <div className="game-container1">
-      <div className="game-content">
-        {win && (
-          <div className="win-message">
-            <div className="d-flex align-items-center justify-content-center space-x-4">
-              <p className="font-medium">You have won the game</p>
-            </div>
+  <div className="game-container1">
+    <div className="game-content">
+      {win && (
+        <div className="win-message mb-6">
+          <div className="flex items-center justify-center space-x-4">
+            <p className="font-semibold text-black text-lg">
+              You have won the game
+            </p>
           </div>
-        )}
-        <h3 className="game-title">
-          {`${gridSize} Puzzle Game`}
-        </h3>
-        <div className="game-info">
-          <p>Moves: {moves}</p>
-          <Timer time={time} timerActive={timerActive} setTime={setTime} className="timer" />
         </div>
-        <Puzzle
-          shuffledArray={shuffledArray}
-          dragStart={dragStart}
-          dragOver={dragOver}
-          dropped={dropped}
-          gridSize={gridSize}
-        />
-        {win && (
-          <div className="win-actions">
-            <div className="d-flex align-items-center justify-content-center ">
-              <div>
-                <button
-                  onClick={newGame}
-                  className="new-game-btn"
-                >
-                  New Game
-                </button>
-                <button
-                  onClick={() => {
-                    newGame();
-                    onLevelCompletion();
-                  }}
-                  className="next-level-btn"
-                >
-                  Move to Next Level
-                </button>
-                <button onClick={getRecommendations}>Get Recommendations</button>
-       <ul>
-          {trecommendations.length > 0 ? (
-            trecommendations.map((recommendation, index) => (
-              <li key={index}>{recommendation[0]} : {recommendation[1]}</li>
-            ))
-          ) : (
-            <li></li>
-          )}
-        </ul>
-              </div>
-            </div>
-          </div>
-        )}
-        {!win && (
-          <div className="win-actions">
+      )}
+      <h3 className="game-title text-2xl font-bold mb-4 text-gray-900">
+        {`${gridSize} Puzzle Game`}
+      </h3>
+      <div className="game-info flex justify-between mb-6 text-gray-800 font-medium">
+        <p className="text-lg">Moves: <span className="font-semibold">{moves}</span></p>
+        <Timer time={time} timerActive={timerActive} setTime={setTime} className="timer" />
+      </div>
+      <Puzzle
+        shuffledArray={shuffledArray}
+        dragStart={dragStart}
+        dragOver={dragOver}
+        dropped={dropped}
+        gridSize={gridSize}
+      />
+      {win && (
+        <div className="win-actions mt-8 space-y-4">
+          <div className="flex flex-col items-center space-y-3">
             <button
               onClick={newGame}
-              className="new-game-btn"
+              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded shadow-md transition duration-300 w-full max-w-xs"
             >
               New Game
             </button>
+            <button
+              onClick={() => {
+                newGame();
+                onLevelCompletion();
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow-md transition duration-300 w-full max-w-xs"
+            >
+              Move to Next Level
+            </button>
+            <button
+              onClick={getRecommendations}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded shadow-md transition duration-300 w-full max-w-xs"
+            >
+              Get Recommendations
+            </button>
+            <ul className="mt-4 text-gray-900 w-full max-w-xs text-left">
+              {trecommendations.length > 0 ? (
+                trecommendations.map((recommendation, index) => (
+                  <li key={index} className="border-b border-gray-300 py-1">
+                    <span className="font-semibold">{recommendation[0]}</span> : {recommendation[1]}
+                  </li>
+                ))
+              ) : (
+                <li className="italic text-gray-500">No recommendations yet.</li>
+              )}
+            </ul>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+      {!win && (
+        <div className="win-actions mt-6">
+          <button
+            onClick={newGame}
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded shadow-md transition duration-300 w-full max-w-xs"
+          >
+            New Game
+          </button>
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
+
 }

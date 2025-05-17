@@ -219,7 +219,7 @@ class WackApp extends Component {
 
   render() {
     return (
-      <div className='wackgameb'>
+      <div className='wackgameb' >
       <div className="main-container">
         <div className="game" style={{ WebkitTransform: this.state['shake'] }}>
           <h1 className="game__title" style={{ margin: this.state.titleMargin }}>

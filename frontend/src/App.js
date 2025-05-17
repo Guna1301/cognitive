@@ -37,7 +37,7 @@ import "./Components/Css/loginform.css";
 
 function App() {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <BrowserRouter>
         <TopNavbar />
         <GradioButton />
@@ -54,6 +54,7 @@ function App() {
               </div>
             }
           />
+
 
           {/* Profile */}
           <Route

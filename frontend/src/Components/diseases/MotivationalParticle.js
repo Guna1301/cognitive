@@ -1,6 +1,5 @@
 
 
-// Inside MotivationalParticle.js
 import React, { useEffect, useState } from "react";
 import "../Css/Particle.css"; // Import the CSS file
 

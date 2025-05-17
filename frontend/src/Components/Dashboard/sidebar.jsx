@@ -12,23 +12,24 @@ function Sidebar() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white h-screen w-20 flex flex-col items-center py-6 shadow-md">
-      <div className="flex flex-col items-center space-y-8 mt-4">
-        <button onClick={() => navigate("/")} className="bg-white border-0 focus:outline-none">
+    <div className="bg-white dark:bg-gray-900 h-full w-20 flex flex-col items-center py-6 shadow-md ">
+      <div className="flex dark:bg-gray-900 flex-col items-center space-y-8 mt-4">
+        <button onClick={() => navigate("/")} className="bg-white dark:bg-gray-900 border-0 focus:outline-none">
           <img src={Icon} alt="Main Icon" className="w-8 h-8" />
         </button>
 
-        <button onClick={() => navigate("/Dashboard")} className="bg-white border-0 focus:outline-none">
+        <button onClick={() => navigate("/Dashboard")} className="bg-white dark:bg-gray-900 border-0 focus:outline-none">
           <img src={DashboardIcon} alt="Dashboard" className="w-6 h-6" />
         </button>
 
-        <button onClick={() => navigate("/profile")} className="bg-white border-0 focus:outline-none">
+        <button onClick={() => navigate("/profile")} className="bg-white dark:bg-gray-900 border-0 border-white">
           <img src={PersonIcon} alt="Profile" className="w-6 h-6" />
         </button>
 
-        <button onClick={() => navigate("/gamepage")} className="bg-white border-0 focus:outline-none">
+        <button onClick={() => navigate("/gamepage")} className="bg-white dark:bg-gray-900 border-0 focus:outline-none">
           <img src={ActivityIcon} alt="Activity" className="w-6 h-6" />
         </button>
+
       </div>
     </div>
   );
