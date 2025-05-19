@@ -12,7 +12,7 @@ function Sidebar() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white dark:bg-gray-900 h-full w-20 flex flex-col items-center py-6 shadow-md ">
+    <div className="bg-white dark:bg-gray-900 h-[80%] w-20 flex flex-col items-center py-6 shadow-lg rounded-lg">
       <div className="flex dark:bg-gray-900 flex-col items-center space-y-8 mt-4">
         <button onClick={() => navigate("/")} className="bg-white dark:bg-gray-900 border-0 focus:outline-none">
           <img src={Icon} alt="Main Icon" className="w-8 h-8" />

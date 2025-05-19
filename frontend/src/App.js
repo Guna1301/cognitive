@@ -111,7 +111,13 @@ function App() {
           <Route path="/selectionpage" element={<Page />} />
           <Route path="/AnagramGame" element={<Anagram />} />
           <Route path="/PuzzleGame" element={<PuzzleApp />} />
-          <Route path="/gamepage" element={<Gamepage />} />
+          <Route path="/gamepage" 
+              element={
+                <div className="m-3">
+                  <Gamepage />
+                </div>
+              }
+          />
           <Route path="/EmotionGame" element={<EmotionGame />} />
           <Route path="/WackGame" element={<Wackapp />} />
           <Route path="/ColourGame" element={<ColourGame />} />

@@ -1,9 +1,8 @@
-// AuthForm.js
-
 import React, { useState } from 'react';
 import './AuthForm.css';
 import SignInForm from './loginForm';
 import SignUpForm from './signupForm';
+
 const AuthForm = () => {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
 
@@ -15,41 +14,39 @@ const AuthForm = () => {
     <div className={`container2 ${isSignUpMode ? 'sign-up-mode' : ''}`}>
       <div className="forms-container2">
         <div className="signin-signup">
-          {isSignUpMode ? <SignUpForm /> : <SignInForm />}
+          <SignInForm />
+          <SignUpForm />
         </div>
       </div>
 
       <div className="panels-container2">
         <div className="panel left-panel">
           <div className="content">
-            <h3>New here ?</h3>
+            <h3>New here?</h3>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+              Start your personalized cognitive training journey today. Fun games, insightful progress, and a better learning experience await you!
             </p>
             <button className="btn transparent" onClick={toggleMode} id="sign-up-btn">
-              Sign up
+              Get Started
             </button>
           </div>
-          <img src="img/log.svg" className="image" alt="" />
         </div>
+
         <div className="panel right-panel">
           <div className="content">
-            <h3>One of us ?</h3>
+            <h3>Already on your journey?</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
+              Welcome back! Let’s pick up where you left off and continue boosting those brain skills with activities made just for you.
             </p>
             <button className="btn transparent" onClick={toggleMode} id="sign-in-btn">
-              Sign in
+              SIGN IN
             </button>
           </div>
-          <img src="img/register.svg" className="image" alt="" />
         </div>
+
       </div>
     </div>
   );
 };
 
-
-export default AuthForm;  
+export default AuthForm;

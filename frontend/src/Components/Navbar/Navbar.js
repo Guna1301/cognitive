@@ -28,7 +28,7 @@ function TopNavbar() {
   }
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between shadow-md">
+    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between shadow-md ">
       <a href="/" className="flex items-center text-xl font-bold text-gray-800 dark:text-white tracking-wide">
         <img src={logo2} className="h-12 mr-3 rounded-lg" alt="logo" />
         BRAINWAVE

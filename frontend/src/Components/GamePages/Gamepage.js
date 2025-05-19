@@ -8,14 +8,14 @@ import Sidebar from "../Dashboard/sidebar";
 
 export default function Gamepage() {
   return (
-    <div className="flex min-h-screen g">
+    <div className="flex flex-row min-h-screen bg-gray-50">
       {/* Sidebar */}
-      <div className="bg-gray-100 dark:bg-gray-800 shadow-lg">
+      <div>
         <Sidebar />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+      <div className="flex-1 p-6 space-y-6 overflow-y-auto dark:bg-gray-900 text-gray-900 dark:text-white">
         <h1 className="text-3xl font-semibold text-center mb-8">Activities</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">

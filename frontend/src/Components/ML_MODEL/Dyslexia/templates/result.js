@@ -7,7 +7,7 @@ function DResult() {
     const location = useLocation();
     const [submitted, setSubmitted] = useState(false);
     const [resp, setResp] = useState(null);
-
+    
     async function handleSubmit() {
         try {
             const response = await axios.post('https://final-ps-ml1.onrender.com/dpredict', {
