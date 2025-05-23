@@ -34,13 +34,34 @@ import DResult from "./Components/ML_MODEL/Dyslexia/templates/result";
 import Page from "./Components/diseases/page";
 
 import "./Components/Css/loginform.css";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
+    const [signup, isSignup] = useState(false);
+    useEffect(() => { 
+        if (localStorage.getItem("name") !== null ){
+          isSignup(true)
+        }
+        if (localStorage.getItem("name") === ''){
+          isSignup(false)
+        }
+      }, [])
+  
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <BrowserRouter>
         <TopNavbar />
         <GradioButton />
+        {
+          signup && (
+            <div>
+
+            </div>
+            
+          )
+
+        }
         <Routes>
           {/* Main Landing */}
           <Route path="/" element={<FirstLayout />} />
@@ -49,9 +70,7 @@ function App() {
           <Route
             path="/Dashboard"
             element={
-              <div className="m-3">
-                <DashboardMain />
-              </div>
+              <DashboardMain />
             }
           />
 

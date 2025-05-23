@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import GradioComponent from './GradioComponent';
-import './GradioButton.css'; // Import the CSS file
+import './GradioButton.css'; 
 
 const GradioButton = () => {
   const [isChatbotVisible, setChatbotVisible] = useState(false);
