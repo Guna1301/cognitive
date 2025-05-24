@@ -46,7 +46,7 @@ const EmotionFlashcardGame = ({ ageRange, level, levels }) => {
   useEffect(() => {
     if (gameOver) {
       try {
-        axios.post('https://final-ps-backend.vercel.app/api/activity', {
+        axios.post('http://localhost:5000/api/activity', {
           email: localStorage.getItem('email'),
           gameType: "Reflex",
           score: Math.round((score / 15) * 10),

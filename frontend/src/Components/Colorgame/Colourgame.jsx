@@ -95,7 +95,7 @@ const ColourGame = () => {
   useEffect(() => {
     if (gameOver) {
       try {
-        axios.post('https://final-ps-backend.vercel.app/api/activity', {
+        axios.post('http://localhost:5000/api/activity', {
           email: localStorage.getItem('email'),
           gameType: "Memory",
           score: Math.round((score / 15) * 10),
@@ -122,7 +122,7 @@ const ColourGame = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 flex items-center justify-center p-6">
       <div className="w-full max-w-lg bg-white shadow-lg rounded-xl p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-center text-indigo-700">Memory Game</h2>
+        <h2 className="text-2xl font-bold text-center text-neutral-700">Color Sequence</h2>
 
         <div className="text-center">
           <p className="text-lg font-semibold text-indigo-600">Score: {score}</p>
@@ -154,13 +154,13 @@ const ColourGame = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg"
+                className="bg-neutral-500 hover:bg-neutral-700 text-white font-semibold px-4 py-2 rounded-lg"
                 onClick={handleCheckPattern}
               >
                 Check Pattern
               </button>
               <button
-                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-lg"
+                className="bg-red-400 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg"
                 onClick={handleRemovePattern}
               >
                 Remove Pattern

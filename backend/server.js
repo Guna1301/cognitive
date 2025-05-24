@@ -7,13 +7,14 @@ const authroute = require("./api/Routes/auth.js");
 const autisamroute = require("./api/Routes/autisam.js");
 const dislexiaroute = require("./api/Routes/dislexia.js")
 const activityroute = require("./api/Routes/activity.js")
+const chatRoute = require("./api/Routes/chat.js");
 const { loginUser } = require("./api/models/loginuser.js");
 const { Activity } = require("./api/models/activity.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const nodemailer = require('nodemailer')
 const app = express();
-
+require('dotenv').config(); 
 app.use(cors());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -23,12 +24,16 @@ const PORT = 5000;
 app.use(bodyParser.json());
 app.use(express.json())
 const User = require("./api/models/user.js");
-mongoose.connect("mongodb+srv://kbhanu5125:dGEfmiRgDexoIU8u@psproject.if85nzf.mongodb.net/?authSource=PSProject&authMechanism=SCRAM-SHA-1");
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
+
 app.use("/api/loginusers", loginroute)
 app.use("/api/auth", authroute)
 app.use("/api/autisam", autisamroute)
 app.use("/api/dislexia", dislexiaroute)
 app.use("/api/activity", activityroute)
+app.use("/api/chat", chatRoute);
 
 app.post('/api/users', async (req, res) => {
   try {

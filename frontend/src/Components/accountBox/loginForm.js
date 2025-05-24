@@ -23,7 +23,7 @@ const SignInForm = () => {
 	};
 
   useEffect(() =>{
-    fetch("https://final-ps-backend.vercel.app/getemail", {
+    fetch("http://localhost:5000/getemail", {
       method: "GET",
       crossDomain: true,
         headers: {
@@ -37,7 +37,7 @@ const SignInForm = () => {
       setloginemail(data.allEmail)
     })
 
-    fetch("https://final-ps-backend.vercel.app/getusers", {
+    fetch("http://localhost:5000/getusers", {
       method: "GET",
       crossDomain: true,
         headers: {
@@ -55,7 +55,7 @@ const SignInForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "https://final-ps-backend.vercel.app/api/auth";
+			const url = "http://localhost:5000/api/auth";
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.data);
       const decodedToken = aJwtDecode();
@@ -81,7 +81,7 @@ const SignInForm = () => {
 
   const onSuccess = async (response) => {
     try {
-      const exchangeResponse = await fetch('https://final-ps-backend.vercel.app/api/exchange-code', {
+      const exchangeResponse = await fetch('http://localhost:5000/api/exchange-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ const handleMicrosoftLogin = async (err, data) => {
   try {
     const { accessToken } = data;
 
-      const userResponse = await axios.get('https://final-ps-backend.vercel.app/microsoft/user', {
+      const userResponse = await axios.get('http://localhost:5000/microsoft/user', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

@@ -1,6 +1,6 @@
 import React from "react";
-import AnagramCP from "./assests/Anagram_cp.jpg";
-import ColourPatternCP from "./assests/ColourPatterns_cp.jpg.png";
+import AnagramCP from "./assests/Anagram_Black-Logo.jpg";
+import ColourPatternCP from "./assests/color-sequence.png";
 import EmotionCP from "./assests/EmotionCover_pic.jpg";
 import SlidePuzzleCP from "./assests/slide puzzle.jpg";
 import { Link } from "react-router-dom";
