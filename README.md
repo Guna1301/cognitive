@@ -111,12 +111,14 @@ npm install
 npm run dev
 ```
 Create a .env file in the backend folder with the following:
+```
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 ML_API_URL=https://your-deployed-ml-api-endpoint
 
-Future Improvements
+```
+### Future Improvements
 -> Admin panel to monitor users and analytics
 
 -> Long-term user progress tracking
