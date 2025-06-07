@@ -19,8 +19,8 @@ A web-based platform designed to support children with cognitive disorders like 
 
 ## 🚀 Live Demo
 
-- **Frontend** (React – hosted on Vercel): [https://your-vercel-app.vercel.app](#)
-- **Backend API** (Node.js – hosted on Render): [https://your-backend.onrender.com](#)
+- **Frontend** (React – hosted on Vercel): [https://cognitive-omega.vercel.app](#)
+- **Backend API** (Node.js – hosted on Render): [https://cognitive-backend.onrender.com](#)
 - **ML Endpoint**: Deployed separately and integrated via API
 
 ---
@@ -54,8 +54,8 @@ A web-based platform designed to support children with cognitive disorders like 
 
 | Area         | Technology Used              |
 |--------------|------------------------------|
-| **Frontend** | React.js, Axios              |
-| **Backend**  | Node.js, Express.js, JWT     |
+| **Frontend** | React.js, Tailwindcss           |
+| **Backend**  | Node.js, Express.js,           |
 | **ML**       | Python, scikit-learn         |
 | **Hosting**  | Vercel (Frontend), Render (Backend) |
 | **Database** | MongoDB                      |
@@ -63,10 +63,12 @@ A web-based platform designed to support children with cognitive disorders like 
 ---
 
 ## 📂 Project Structure
+```
 /cognitive
-├── frontend/ # React application (UI)
-├── backend/ # Express.js API (auth, data handling)
-└── ML/ # Machine learning models (deployed separately)
+├── frontend/   # React application (UI)
+├── backend/    # Express.js API (auth, data handling)
+└── ML/         # Machine learning models (deployed separately)
+```
 
 
 ---
@@ -115,15 +117,15 @@ JWT_SECRET=your_jwt_secret
 ML_API_URL=https://your-deployed-ml-api-endpoint
 
 Future Improvements
-✅ Admin panel to monitor users and analytics
+-> Admin panel to monitor users and analytics
 
-⏳ Long-term user progress tracking
+-> Long-term user progress tracking
 
-⏳ More games targeting emotional and social intelligence
+-> More games targeting emotional and social intelligence
 
-⏳ Mobile-optimized and responsive design
+-> Mobile-optimized and responsive design
 
-⏳ Speech-to-text & voice interaction for accessibility
+-> Speech-to-text & voice interaction for accessibility
 
-Contributions
+### Contributions
 Contributions, suggestions, and issue reports are welcome! Feel free to fork the repo or open a pull request.
