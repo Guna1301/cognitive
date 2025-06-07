@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Analytics } from '@vercel/analytics/react';
+
 
 import TopNavbar from "./Components/Navbar/Navbar";
 import Sidebar from "./Components/Dashboard/sidebar";
@@ -51,6 +53,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <BrowserRouter>
+        <Analytics />
         <TopNavbar />
         <GradioButton />
         {
