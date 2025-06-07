@@ -29,7 +29,7 @@ const UserForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/users', userData);
+      await axios.post('https://cognitive-backend.onrender.com/api/users', userData);
       navigate('/Successpage');
     } catch (error) {
       console.error('Error creating user:', error);

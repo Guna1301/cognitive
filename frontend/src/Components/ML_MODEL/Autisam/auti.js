@@ -106,7 +106,7 @@ const Autisam = () => {
       setPrediction(score);
       setSubmitted(true);
 
-      await axios.post('http://localhost:5000/api/autisam', {
+      await axios.post('https://cognitive-backend.onrender.com/api/autisam', {
         name: localStorage.getItem('name'),
         email: localStorage.getItem('email'),
         score: score,

@@ -95,7 +95,7 @@ const ColourGame = () => {
   useEffect(() => {
     if (gameOver) {
       try {
-        axios.post('http://localhost:5000/api/activity', {
+        axios.post('https://cognitive-backend.onrender.com/api/activity', {
           email: localStorage.getItem('email'),
           gameType: "Memory",
           score: Math.round((score / 15) * 10),

@@ -30,7 +30,7 @@ export default function Game({ level, onLevelCompletion }) {
       setWin(true);
       setTimerActive(false);
       try {
-        const scr = axios.post('http://localhost:5000/api/activity', {
+        const scr = axios.post('https://cognitive-backend.onrender.com/api/activity', {
           email: localStorage.getItem('email'),
           gameType: "Problem-Solving",
           score: gridSize === 2 ? 

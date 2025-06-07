@@ -46,7 +46,7 @@ const EmotionFlashcardGame = ({ ageRange, level, levels }) => {
   useEffect(() => {
     if (gameOver) {
       try {
-        axios.post('http://localhost:5000/api/activity', {
+        axios.post('https://cognitive-backend.onrender.com/api/activity', {
           email: localStorage.getItem('email'),
           gameType: "Reflex",
           score: Math.round((score / 15) * 10),

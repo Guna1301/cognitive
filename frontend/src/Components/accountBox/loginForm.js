@@ -23,7 +23,7 @@ const SignInForm = () => {
 	};
 
   useEffect(() =>{
-    fetch("http://localhost:5000/getemail", {
+    fetch("https://cognitive-backend.onrender.com/getemail", {
       method: "GET",
       crossDomain: true,
         headers: {
@@ -37,7 +37,7 @@ const SignInForm = () => {
       setloginemail(data.allEmail)
     })
 
-    fetch("http://localhost:5000/getusers", {
+    fetch("https://cognitive-backend.onrender.com/getusers", {
       method: "GET",
       crossDomain: true,
         headers: {
@@ -55,7 +55,7 @@ const SignInForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:5000/api/auth";
+			const url = "https://cognitive-backend.onrender.com/api/auth";
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.data);
       const decodedToken = aJwtDecode();
@@ -81,7 +81,7 @@ const SignInForm = () => {
 
   const onSuccess = async (response) => {
     try {
-      const exchangeResponse = await fetch('http://localhost:5000/api/exchange-code', {
+      const exchangeResponse = await fetch('https://cognitive-backend.onrender.com/api/exchange-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ const handleMicrosoftLogin = async (err, data) => {
   try {
     const { accessToken } = data;
 
-      const userResponse = await axios.get('http://localhost:5000/microsoft/user', {
+      const userResponse = await axios.get('https://cognitive-backend.onrender.com/microsoft/user', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

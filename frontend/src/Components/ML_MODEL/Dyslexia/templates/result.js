@@ -17,7 +17,7 @@ function DResult() {
             setResp(response.data);
 
             try {
-                const scr = await axios.post('http://localhost:5000/api/dislexia', {
+                const scr = await axios.post('https://cognitive-backend.onrender.com/api/dislexia', {
                     name: localStorage.getItem('name'),
                     email: localStorage.getItem('email'),
                     score: Math.round(response.data.output),

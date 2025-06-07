@@ -41,7 +41,7 @@ function UpdateUser() {
 
     function updatedata() {
         console.log(fname, lname)
-        fetch("http://localhost:5000/updateUser", {
+        fetch("https://cognitive-backend.onrender.com/updateUser", {
         method: "POST",
         crossDomain: true,
         headers: {

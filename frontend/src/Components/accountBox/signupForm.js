@@ -25,7 +25,7 @@ const SignUpForm = () => {
     }
     else{
 		try {
-			const url = "http://localhost:5000/api/loginusers";
+			const url = "https://cognitive-backend.onrender.com/api/loginusers";
 			await axios.post(url, data);
 			navigate("/Successpage");
 

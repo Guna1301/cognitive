@@ -25,7 +25,7 @@ function DashboardMain() {
     const fetchUserDetails = async () => {
       const email = localStorage.getItem("email");
       try {
-        const response = await axios.get(`http://localhost:5000/activityset/${email}`);
+        const response = await axios.get(`https://cognitive-backend.onrender.com/activityset/${email}`);
         const scoresArray = Object.values(response.data.scores);
 
         const aggregatedScores = {};

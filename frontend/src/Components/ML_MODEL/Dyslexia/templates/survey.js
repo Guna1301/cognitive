@@ -198,7 +198,6 @@ function DSurvey() {
             </div>
           </div>
         )}
-
         <div className="flex gap-4 justify-center">
           <button
             type="button"

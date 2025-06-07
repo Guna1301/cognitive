@@ -157,6 +157,7 @@ app.post('/api/exchange-code', async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        
         Accept: 'application/json', // Specify JSON response format
       },
       body: JSON.stringify({

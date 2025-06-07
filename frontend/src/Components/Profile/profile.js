@@ -17,7 +17,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/user-details/${lemail}`);
+        const response = await axios.get(`https://cognitive-backend.onrender.com/user-details/${lemail}`);
         setData(response.data);
       } catch (error) {
         console.error('Error fetching user details:', error);
