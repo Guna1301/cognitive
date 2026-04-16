@@ -1,23 +1,23 @@
-# 🧠 Cognitive Retraining Web App
+# Cognitive Retraining Web App
 
 A web-based platform designed to support children with cognitive disorders like **Autism** and **Dyslexia**. This application provides interactive games to improve core cognitive skills such as **attention**, **memory**, **language**, **reasoning**, and **reflexes**, along with an ML-powered early prediction tool based on user behavior and quiz responses.
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
-### 🏠 Home Page
+### Home Page
 ![Home Page](./screenshots/homepage.png)
 
-### 📊 Dashboard
+### Dashboard
 ![Dashboard](./screenshots/dashboard.png)
 
-### 🎮 Game Interface
+### Game Interface
 ![Games](./screenshots/games.png)
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 - **Frontend** (React – hosted on Vercel): [https://cognitive-omega.vercel.app](#)
 - **Backend API** (Node.js – hosted on Render): [https://cognitive-backend.onrender.com](#)
@@ -25,32 +25,32 @@ A web-based platform designed to support children with cognitive disorders like 
 
 ---
 
-## 🎯 Key Features
+## Key Features
 
-### 🕹️ Cognitive Games
+### Cognitive Games
 - Improve **attention**, **memory**, **reflexes**, **problem-solving**, and **reasoning**
 - Engaging and child-friendly interfaces
 
-### 📋 Survey/Quiz Module
+### Survey/Quiz Module
 - Gathers responses from both children and parents
 - Aids early detection through structured questioning
 
-### 📊 Dynamic Dashboard
+### Dynamic Dashboard
 - Visual performance analysis by skill area
 - Real-time feedback and progress tracking
 
-### 🤖 Machine Learning Integration
+### Machine Learning Integration
 - Predicts probability of **Dyslexia** or **Autism**
 - Based on survey responses and gameplay data
 - Powered by Python ML models (scikit-learn)
 
-### 🔐 Secure Authentication
+### Secure Authentication
 - JWT-based login and access system
 - Future scope for role-based access (e.g., child, parent, admin)
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Area         | Technology Used              |
 |--------------|------------------------------|
@@ -62,7 +62,7 @@ A web-based platform designed to support children with cognitive disorders like 
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 ```
 /cognitive
 ├── frontend/   # React application (UI)
@@ -73,7 +73,7 @@ A web-based platform designed to support children with cognitive disorders like 
 
 ---
 
-## 🧪 Current Status
+## Current Status
 
 - ✅ Functional games with scoring and UI
 - ✅ Survey module connected to ML
@@ -83,7 +83,7 @@ A web-based platform designed to support children with cognitive disorders like 
 
 ---
 
-## 🧠 Motivation
+## Motivation
 
 Cognitive disorders often go **undetected in early childhood**, especially in under-resourced communities. This platform aims to:
 
@@ -93,7 +93,7 @@ Cognitive disorders often go **undetected in early childhood**, especially in un
 
 ---
 
-## 📦 Setup Instructions (for Local Development)
+## Setup Instructions (for Local Development)
 
 ```bash
 # Clone the repository
