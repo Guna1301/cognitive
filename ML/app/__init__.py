@@ -7,7 +7,8 @@ def create_app():
         app,
         resources={r"/*": {"origins": [
             "http://localhost:3000",
-            "https://cognitive-omega.vercel.app"
+            "https://cognitive-omega.vercel.app",
+            "https://brainwaveprod.vercel.app"
         ]}},
         supports_credentials=True
     )
