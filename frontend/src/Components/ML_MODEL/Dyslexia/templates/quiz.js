@@ -23,7 +23,7 @@ import elephant from "../assets/elephant.mp3";
 import piano from "../assets/piano.mp3";
 import catastrophe from "../assets/catastrophe.mp3";
 
-const PREDICTION_URL = process.env.PREDICTION_URL || "http://localhost:8089";
+const REACT_APP_PREDICTION_URL = process.env.REACT_APP_PREDICTION_URL || "http://localhost:8089";
 function DQuiz() {
   
   const [age, setAge] = useState("");
@@ -84,7 +84,7 @@ function DQuiz() {
     ));
 
     try {
-      const response = await axios.post(`${PREDICTION_URL}/quizz`, {
+      const response = await axios.post(`${REACT_APP_PREDICTION_URL}/quizz`, {
         answers: modelValues,
       }).then((res) => 
       navigate("/DSurvey", { state: { vals: res.data.scr } }),

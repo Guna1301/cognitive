@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000/api";
-const PREDICTION_URL = process.env.PREDICTION_URL || "http://localhost:8089";
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api";
+const REACT_APP_PREDICTION_URL = process.env.REACT_APP_PREDICTION_URL || "http://localhost:8089";
 const Autisam = () => {
   const [questions] = useState([
     {
@@ -100,7 +100,7 @@ const Autisam = () => {
     );
 
     try {
-      const res = await axios.post(`${PREDICTION_URL}/apredict`, {
+      const res = await axios.post(`${REACT_APP_PREDICTION_URL}/apredict`, {
         answers: modelValues
       });
 
@@ -108,7 +108,7 @@ const Autisam = () => {
       setPrediction(score);
       setSubmitted(true);
 
-      await axios.post(`${BACKEND_URL}/autisam`, {
+      await axios.post(`${REACT_APP_BACKEND_URL}/autisam`, {
         name: localStorage.getItem('name'),
         email: localStorage.getItem('email'),
         score: score,

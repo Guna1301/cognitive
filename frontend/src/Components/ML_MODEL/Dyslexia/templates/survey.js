@@ -4,7 +4,7 @@ import axios from 'axios';
 import './curve.css'
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const PREDICTION_URL = process.env.PREDICTION_URL || "http://localhost:8089";
+const REACT_APP_PREDICTION_URL = process.env.REACT_APP_PREDICTION_URL || "http://localhost:8089";
 
 function DSurvey() {
     const [questions] = useState([
@@ -150,7 +150,7 @@ function DSurvey() {
       ));
     
       try {
-        const response = await axios.post(`${PREDICTION_URL}/survey`, {
+        const response = await axios.post(`${REACT_APP_PREDICTION_URL}/survey`, {
           answers: modelValues,
           vals: location.state.vals
         }).then((res)=>{

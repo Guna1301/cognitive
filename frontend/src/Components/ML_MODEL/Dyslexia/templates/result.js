@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000/api";
-const PREDICTION_URL = process.env.PREDICTION_URL || "http://localhost:8089";
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api";
+const REACT_APP_PREDICTION_URL = process.env.REACT_APP_PREDICTION_URL || "http://localhost:8089";
 
 function DResult() {
     const location = useLocation();
@@ -13,14 +13,14 @@ function DResult() {
     
     async function handleSubmit() {
         try {
-            const response = await axios.post( `${PREDICTION_URL}/dpredict`, {
+            const response = await axios.post( `${REACT_APP_PREDICTION_URL}/dpredict`, {
                 vals: location.state.vals
             });
             setSubmitted(true);
             setResp(response.data);
 
             try {
-                const scr = await axios.post(`${BACKEND_URL}/dislexia`, {
+                const scr = await axios.post(`${REACT_APP_BACKEND_URL}/dislexia`, {
                     name: localStorage.getItem('name'),
                     email: localStorage.getItem('email'),
                     score: Math.round(response.data.output),

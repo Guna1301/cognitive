@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Chat = ({ onClose }) => {
-  const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000/api";
+  const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api";
   const navigate = useNavigate();
 
   const [messages, setMessages] = useState([
@@ -33,7 +33,7 @@ const Chat = ({ onClose }) => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${BACKEND_URL}/chat`, {
+      const res = await fetch(`${REACT_APP_BACKEND_URL}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
