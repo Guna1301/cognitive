@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
 
     const user_context = processActivity(userActivity);
 
-    const flaskResponse = await axios.post("http://localhost:8089/chat", {
+    const flaskResponse = await axios.post("https://brainwave-ml-backend.onrender.com/chat", {
       query: question,
       user_context,
     });
