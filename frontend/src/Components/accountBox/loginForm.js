@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -106,26 +107,6 @@ const SignInForm = () => {
   const onFailure = (response) => {
     console.error('GitHub login failed:', response);
   };
-
-const handleMicrosoftLogin = async (err, data) => {
-  try {
-    const { accessToken } = data;
-
-      const userResponse = await axios.get('https://cognitive-backend.onrender.com/microsoft/user', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const microsoftUser = userResponse.data;
-      console.log('Microsoft User Details:', microsoftUser);
-      localStorage.setItem("name", microsoftUser.displayName !== ""?(microsoftUser.displayName) : microsoftUser.mail)
-      localStorage.setItem("email", microsoftUser.mail)
-      navigate("/")
-  } catch (error) {
-    console.error('Microsoft Login Error:', error);
-  }
-};
 
   return (
     <form onSubmit={handleSubmit} className="sign-in-form2">

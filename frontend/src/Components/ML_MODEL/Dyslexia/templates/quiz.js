@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 //https://final-ps-ml1.onrender.com
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -349,14 +350,14 @@ function DQuiz() {
           answer: "Piano",
           img1: "null",
           img2: "null",
-          mp3: piano, // Replace "audio_url_here" with the actual URL
+          mp3: piano, 
         },
         {
           id: 8,
           text: "Identify the image shown below.",
           options: ["Sunflower", "Rose", "Tulip", "Daisy"],
           answer: "Tulip",
-          img1: tulip, // Replace "image_url_here" with the actual URL
+          img1: tulip,
           img2: "null",
           mp3: "null",
         },
@@ -376,10 +377,9 @@ function DQuiz() {
           answer: "Catastrophe",
           img1: "null",
           img2: "null",
-          mp3:catastrophe , // Replace "audio_url_here" with the actual URL
+          mp3:catastrophe , 
         },
       
-        // Add more questions for this age group
       ];
     }
     return [];
@@ -447,14 +447,14 @@ function DQuiz() {
                         {questions[currentQuestionIndex].img1 !== "null" && (
                           <img
                             src={questions[currentQuestionIndex].img1}
-                            alt="Image 1"
+                            alt="question"
                             className="w-32 h-32 object-cover rounded-md"
                           />
                         )}
                         {questions[currentQuestionIndex].img2 !== "null" && (
                           <img
                             src={questions[currentQuestionIndex].img2}
-                            alt="Image 2"
+                            alt="question"
                             className="w-32 h-32 object-cover rounded-md"
                           />
                         )}

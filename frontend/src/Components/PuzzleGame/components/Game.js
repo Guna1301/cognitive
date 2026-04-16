@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import shuffleArray from "../utils/shuffleFunction";
 import Puzzle from "./Puzzle";
@@ -50,7 +51,7 @@ export default function Game({ level, onLevelCompletion }) {
       }
         }
     return;
-  }, [moves, shuffledArray, time]);
+  }, [moves, shuffledArray, time, gridSize]);
 
   const newGame = () => {
     setMoves(0);

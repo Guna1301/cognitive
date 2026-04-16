@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useTheme } from "../context/ThemeContext";
+// import { useTheme } from "../context/ThemeContext";
 import logo2 from "../Navbar/logo.svg";
 import user_icon from "../Navbar/user-circle.png";
 
 function TopNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isDark, setIsDark } = useTheme();
+  // const { isDark, setIsDark } = useTheme();
 
   const [propt, setpropert] = useState(localStorage.getItem("name"));
   const [signup, isSignup] = useState(false);

@@ -1,5 +1,5 @@
 // ColourGame.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PatternContainer from './PatternContainer';
 import ColorOption from './ColorOption';
 import heartImage from '../Game/assests/heart.png'; 
@@ -15,7 +15,15 @@ const ColourGame = () => {
   const [score, setScore] = useState(0);
   const [showReferencePattern, setShowReferencePattern] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
-  const colors = ['red', 'blue', 'green', 'yellow'];
+  const colors = useMemo(() => ['red', 'blue', 'green', 'yellow'], []);
+
+  const generatePattern = useCallback(() => {
+    const newPattern = Array.from({ length: 3 }, () =>
+      colors[Math.floor(Math.random() * colors.length)]
+    );
+    setReferencePattern(newPattern);
+  }, [colors]);
+
 
   useEffect(() => {
     if (showReferencePattern) {
@@ -26,7 +34,7 @@ const ColourGame = () => {
 
       return () => clearTimeout(patternTimeout);
     }
-  }, [showReferencePattern]);
+  }, [showReferencePattern,generatePattern]);
 
   useEffect(() => {
     if (!showReferencePattern) {
@@ -35,12 +43,6 @@ const ColourGame = () => {
     }
   }, [showReferencePattern]);
 
-  const generatePattern = () => {
-    const newPattern = Array.from({ length: 3 }, () =>
-      colors[Math.floor(Math.random() * colors.length)]
-    );
-    setReferencePattern(newPattern);
-  };
 
   const handleColorClick = (color) => {
     if (!showReferencePattern) {

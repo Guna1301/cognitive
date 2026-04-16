@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Anagram.css'; // Keep if you have any custom styles
 import heart from "./assests/heart.png";
 import AnagramGenerator from './AnagramGenerator';
 import AnagramDisplay from './AnagramDisplay';
 import AnagramInput from './AnagramInput';
 import RotatingCirclesBackground from './BackGround';
-import { Button } from 'react-bootstrap';
 import axios from 'axios';
 
 function Anagram() {
@@ -15,8 +14,18 @@ function Anagram() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [trecommendations, setRecommendations] = useState([]);
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false); // NEW
-  const [correctAnswer, setCorrectAnswer] = useState(''); // NEW
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false); 
+  const [correctAnswer, setCorrectAnswer] = useState(''); 
+
+
+  const generateNewAnagram = useCallback(() => {
+    const newWord = AnagramGenerator.getRandomWord(score);
+    const newAnagram = AnagramGenerator.shuffleWord(newWord);
+    setWord(newWord);
+    setAnagram(newAnagram);
+    setShowCorrectAnswer(false); 
+    setCorrectAnswer('');
+  }, [score]);
 
   useEffect(() => {
   if (hearts === 0) {
@@ -24,16 +33,8 @@ function Anagram() {
   } else if (!showCorrectAnswer) { 
     generateNewAnagram();
   }
-}, [score, hearts, showCorrectAnswer]);
+}, [score, hearts, showCorrectAnswer,generateNewAnagram]);
 
-  const generateNewAnagram = () => {
-    const newWord = AnagramGenerator.getRandomWord(score);
-    const newAnagram = AnagramGenerator.shuffleWord(newWord);
-    setWord(newWord);
-    setAnagram(newAnagram);
-    setShowCorrectAnswer(false); 
-    setCorrectAnswer('');
-  };
 
   const handleGuess = (guess) => {
     if (showCorrectAnswer) return; 

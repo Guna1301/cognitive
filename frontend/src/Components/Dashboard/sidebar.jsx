@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import Icon from "./assests/main icon.png";
 import DashboardIcon from "./assests/Frame.png";
-import CalenderIcon from "./assests/Frame2.png";
 import PersonIcon from "./assests/person-outline.png";
 import ActivityIcon from "./assests/Activity.svg";
-import SettingIcon from "./assests/Frame5.svg";
 
 function Sidebar() {
   const navigate = useNavigate();

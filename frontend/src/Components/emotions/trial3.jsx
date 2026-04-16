@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import GameOver from './GameOverScreen.jsx';
 import emotionsData from './emo.js';
 import correctSound from './Assets/correct-answer.wav';
@@ -27,21 +27,38 @@ const EmotionFlashcardGame = ({ ageRange, level, levels }) => {
   const timerRef = useRef(null);
   const [trecommendations, setRecommendations] = useState([]);
 
-  const correctAudio = new Audio(correctSound);
-  const incorrectAudio = new Audio(incorrectSound);
-  const cardFlipAudio = new Audio(cardFlipSound);
+  const correctAudio = useMemo(() => new Audio(correctSound), []);
+  const incorrectAudio = useMemo(() => new Audio(incorrectSound), []);
+  const cardFlipAudio = useMemo(() => new Audio(cardFlipSound), []);
+
+  const shuffleCards = useCallback(() => {
+  if (!isPaused) {
+    const shuffled = [...selectedEmotions].sort(() => Math.random() - 0.5);
+    const correctIndex = Math.floor(Math.random() * levels[level].options);
+    const tempOptions = shuffled.slice(0, levels[level].options);
+
+    setCurrentFlashcard(tempOptions[correctIndex]);
+    setOptions([...tempOptions]);
+    setOptionClicked(false);
+    setSelectedAnswer('');
+    setIsCorrect(null);
+    playAudio(cardFlipAudio);
+    setQuestionsAsked((prev) => prev + 1);
+  }
+}, [isPaused, selectedEmotions, levels, level, cardFlipAudio]);
+
 
   useEffect(() => {
-    if (emotionsData[ageRange]?.[level]) {
-      setSelectedEmotions(emotionsData[ageRange][level]);
-      setElapsedTime(0);
-      setTimer(levels[level].timer);
-      shuffleCards();
-      setQuestionsAsked(0);
-    } else {
-      setGameOver(true);
-    }
-  }, [ageRange, level]);
+  if (emotionsData[ageRange]?.[level]) {
+    setSelectedEmotions(emotionsData[ageRange][level]);
+    setElapsedTime(0);
+    setTimer(levels[level].timer);
+    shuffleCards();
+    setQuestionsAsked(0);
+  } else {
+    setGameOver(true);
+  }
+}, [ageRange, level, levels, shuffleCards]);
 
   useEffect(() => {
     if (gameOver) {
@@ -74,7 +91,7 @@ const EmotionFlashcardGame = ({ ageRange, level, levels }) => {
 
   useEffect(() => {
     if (selectedEmotions.length > 0) shuffleCards();
-  }, [selectedEmotions]);
+  }, [selectedEmotions,shuffleCards]);
 
   const playAudio = (audio) => {
     audio.currentTime = 0;
@@ -123,22 +140,6 @@ const EmotionFlashcardGame = ({ ageRange, level, levels }) => {
       if (seconds === timer) setGameOver(true);
     }, 1000);
     shuffleCards();
-  };
-
-  const shuffleCards = () => {
-    if (!isPaused) {
-      const shuffled = [...selectedEmotions].sort(() => Math.random() - 0.5);
-      const correctIndex = Math.floor(Math.random() * levels[level].options);
-      const tempOptions = shuffled.slice(0, levels[level].options);
-
-      setCurrentFlashcard(tempOptions[correctIndex]);
-      setOptions([...tempOptions]);
-      setOptionClicked(false);
-      setSelectedAnswer('');
-      setIsCorrect(null);
-      playAudio(cardFlipAudio);
-      setQuestionsAsked((prev) => prev + 1);
-    }
   };
 
   const restartGame = () => {

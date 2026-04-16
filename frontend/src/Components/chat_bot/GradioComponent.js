@@ -1,6 +1,4 @@
-import Modal from './Modal';
 import './GradioComponent.css';
-import Chat from './Chat';
 
 const GradioComponent = ({ onClose }) => {
   return (

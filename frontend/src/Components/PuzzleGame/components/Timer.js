@@ -13,7 +13,7 @@ useEffect(() => {
 	return () => {
 	clearInterval(interval);
 	};
-}, [timerActive]);
+}, [timerActive, setTime]);
 
 return <p>Time: {time}s</p>;
 }
