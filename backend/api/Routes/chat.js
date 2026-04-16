@@ -1,37 +1,55 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const { Activity } = require("../models/activity");
 
-const HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/Guna01/cognitive-bot-model";
+const processActivity = (activity) => {
+  if (!activity) return {};
+
+  const scores = activity.scores || {};
+
+  let weakAreas = [];
+
+  for (const date in scores) {
+    for (const game in scores[date]) {
+      const avg =
+        scores[date][game].reduce((a, b) => a + b, 0) /
+        scores[date][game].length;
+
+      if (avg < 50) {
+        weakAreas.push(game);
+      }
+    }
+  }
+
+  return {
+    weakAreas,
+    raw: scores,
+  };
+};
+
 router.post("/", async (req, res) => {
   try {
-    const { question } = req.body;
-    console.log("Received question:", question);
+    const { question, email } = req.body;
 
     if (!question) {
-      return res.status(400).json({ error: "Question is required." });
+      return res.status(400).json({ error: "Question is required" });
     }
 
-    const hfResponse = await axios.post(
-      HUGGINGFACE_API_URL,
-      {
-        inputs: `### Instruction: ${question}\n### Response:`,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.HF_TOKEN}`,
-        },
-      }
-    );
+    const userActivity = await Activity.findOne({ email });
 
-    const generatedText = hfResponse.data?.[0]?.generated_text || "Sorry, I couldn't understand.";
+    const user_context = processActivity(userActivity);
 
-    const answer = generatedText.split("### Response:")[1]?.trim() || generatedText;
+    const flaskResponse = await axios.post("http://localhost:8089/chat", {
+      query: question,
+      user_context,
+    });
 
-    return res.status(200).json({ answer });
+    return res.json(flaskResponse.data);
+
   } catch (err) {
-    console.error("Inference error:", err.response?.data || err.message);
-    return res.status(500).json({ message: "An error occurred while processing your request." });
+    console.error("Chat error:", err.message);
+    return res.status(500).json({ error: "Chat failed" });
   }
 });
 

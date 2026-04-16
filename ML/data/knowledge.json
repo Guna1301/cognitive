@@ -1,0 +1,102 @@
+[
+  {
+    "id": "1",
+    "content": "Dyslexia is a learning difference that affects reading, spelling, and writing. It does not affect intelligence but changes how the brain processes language.",
+    "topic": "dyslexia"
+  },
+  {
+    "id": "2",
+    "content": "People with dyslexia may find it difficult to recognize words, decode sounds, and read fluently, but with proper support they can improve significantly.",
+    "topic": "dyslexia"
+  },
+  {
+    "id": "3",
+    "content": "Phonics training helps individuals with dyslexia by teaching the relationship between letters and sounds, improving reading and pronunciation.",
+    "topic": "reading"
+  },
+  {
+    "id": "4",
+    "content": "Reading aloud regularly can improve fluency and confidence in individuals with dyslexia.",
+    "topic": "reading"
+  },
+  {
+    "id": "5",
+    "content": "Breaking words into smaller parts and practicing slowly helps improve reading skills in dyslexia.",
+    "topic": "reading"
+  },
+  {
+    "id": "6",
+    "content": "Autism is a neurodevelopmental condition that affects communication, social interaction, and behavior. It exists on a spectrum, meaning it affects individuals differently.",
+    "topic": "autism"
+  },
+  {
+    "id": "7",
+    "content": "People with autism may have difficulty understanding social cues, emotions, or maintaining conversations, but they may also have strong focus and unique strengths.",
+    "topic": "autism"
+  },
+  {
+    "id": "8",
+    "content": "Visual supports such as pictures, symbols, and structured routines help individuals with autism understand tasks and communication better.",
+    "topic": "autism"
+  },
+  {
+    "id": "9",
+    "content": "Emotion recognition training helps individuals with autism identify facial expressions and understand social interactions.",
+    "topic": "autism"
+  },
+  {
+    "id": "10",
+    "content": "Memory games improve recall, attention, and cognitive processing by challenging the brain to store and retrieve information.",
+    "topic": "memory"
+  },
+  {
+    "id": "11",
+    "content": "Repeating information and practicing active recall helps strengthen memory over time.",
+    "topic": "memory"
+  },
+  {
+    "id": "12",
+    "content": "Breaking information into smaller chunks makes it easier to remember and understand.",
+    "topic": "memory"
+  },
+  {
+    "id": "13",
+    "content": "Concentration can be improved by working in short focused sessions followed by small breaks.",
+    "topic": "focus"
+  },
+  {
+    "id": "14",
+    "content": "Reducing distractions such as noise and notifications helps improve focus and attention.",
+    "topic": "focus"
+  },
+  {
+    "id": "15",
+    "content": "Mindfulness exercises like deep breathing can help improve concentration and reduce stress.",
+    "topic": "focus"
+  },
+  {
+    "id": "16",
+    "content": "Anagram games improve reading and spelling by helping users rearrange letters and recognize word patterns.",
+    "topic": "game"
+  },
+  {
+    "id": "17",
+    "content": "Puzzle games improve memory, concentration, and problem-solving skills through visual and logical challenges.",
+    "topic": "game"
+  },
+  {
+    "id": "18",
+    "content": "Emotion recognition games help users understand facial expressions and improve social awareness.",
+    "topic": "game"
+  },
+  {
+    "id": "19",
+    "content": "Reaction-based games improve attention span, reflexes, and response speed.",
+    "topic": "game"
+  },
+  {
+    "id": "20",
+    "content": "Color matching games improve visual recognition and pattern identification skills.",
+    "topic": "game"
+  }
+]

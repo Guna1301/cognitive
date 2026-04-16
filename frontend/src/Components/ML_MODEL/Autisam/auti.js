@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000/api";
+const PREDICTION_URL = process.env.PREDICTION_URL || "http://localhost:8089";
 const Autisam = () => {
   const [questions] = useState([
     {
@@ -98,7 +100,7 @@ const Autisam = () => {
     );
 
     try {
-      const res = await axios.post('https://final-ps-ml1.onrender.com/apredict', {
+      const res = await axios.post(`${PREDICTION_URL}/apredict`, {
         answers: modelValues
       });
 
@@ -106,7 +108,7 @@ const Autisam = () => {
       setPrediction(score);
       setSubmitted(true);
 
-      await axios.post('https://cognitive-backend.onrender.com/api/autisam', {
+      await axios.post(`${BACKEND_URL}/autisam`, {
         name: localStorage.getItem('name'),
         email: localStorage.getItem('email'),
         score: score,

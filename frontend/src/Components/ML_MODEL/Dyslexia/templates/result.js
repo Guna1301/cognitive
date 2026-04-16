@@ -3,6 +3,9 @@ import { Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000/api";
+const PREDICTION_URL = process.env.PREDICTION_URL || "http://localhost:8089";
+
 function DResult() {
     const location = useLocation();
     const [submitted, setSubmitted] = useState(false);
@@ -10,14 +13,14 @@ function DResult() {
     
     async function handleSubmit() {
         try {
-            const response = await axios.post('https://final-ps-ml1.onrender.com/dpredict', {
+            const response = await axios.post( `${PREDICTION_URL}/dpredict`, {
                 vals: location.state.vals
             });
             setSubmitted(true);
             setResp(response.data);
 
             try {
-                const scr = await axios.post('https://cognitive-backend.onrender.com/api/dislexia', {
+                const scr = await axios.post(`${BACKEND_URL}/dislexia`, {
                     name: localStorage.getItem('name'),
                     email: localStorage.getItem('email'),
                     score: Math.round(response.data.output),

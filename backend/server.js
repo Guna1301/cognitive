@@ -16,7 +16,8 @@ const nodemailer = require('nodemailer')
 const app = express();
 require('dotenv').config(); 
 app.use(cors({
-  origin: 'https://cognitive-omega.vercel.app'
+  origin: ['https://cognitive-omega.vercel.app',"http://localhost:3000"],
+
 }));
 
 app.use((req, res, next) => {
