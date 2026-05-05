@@ -16,14 +16,36 @@ function DResult() {
             const response = await axios.post( `${REACT_APP_PREDICTION_URL}/dpredict`, {
                 vals: location.state.vals
             });
+            
+            const apiPred = response.data.prediction;
+            let predText = "";
+            let resText = "";
+            
+            if (apiPred === 0) {
+                predText = "Your chance of having dyslexia is LOW.";
+                resText = "No significant signs of dyslexia.";
+            } else if (apiPred === 1) {
+                predText = "Your chance of having dyslexia is MODERATE.";
+                resText = "Consider further evaluation.";
+            } else {
+                predText = "Your chance of having dyslexia is HIGH.....";
+                resText = "Consult a doctor...";
+            }
+
+            const formattedResponse = {
+                output: apiPred,
+                prediction: predText,
+                result: resText
+            };
+            
             setSubmitted(true);
-            setResp(response.data);
+            setResp(formattedResponse);
 
             try {
                 const scr = await axios.post(`${REACT_APP_BACKEND_URL}/dislexia`, {
                     name: localStorage.getItem('name'),
                     email: localStorage.getItem('email'),
-                    score: Math.round(response.data.output),
+                    score: Math.round(formattedResponse.output),
                 });
             } catch (error) {
                 console.error('Error submitting survey:', error);
@@ -45,8 +67,15 @@ function DResult() {
         <div className="d-flex flex-column align-items-center gap-2">
           {resp !== null && (
             <div className="text-center">
-              <p className="mb-1" style={{ fontFamily: 'Poppins' }}>{resp.prediction}</p>
-              <p className="mb-0" style={{ fontFamily: 'Poppins' }}>{resp.result}</p>
+              <p className="text-xl font-bold text-indigo-600 mb-1" style={{ fontFamily: 'Poppins' }}>
+                Your Score: {resp.output}
+              </p>
+              <p className="mb-1" style={{ fontFamily: 'Poppins' }}>
+                {resp.prediction}
+              </p>
+              <p className="mb-0" style={{ fontFamily: 'Poppins' }}>
+                {resp.result}
+              </p>
             </div>
           )}
         </div>
