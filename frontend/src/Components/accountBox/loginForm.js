@@ -124,7 +124,7 @@ const SignInForm = () => {
       <Link to="/forgot-password">Forgot Password</Link>
       <p className="social-text">Or</p>
       <GoogleOAuthProvider 
-       clientId="435060184268-800es5la9dbj0atuo40grfa4vs20o7ju.apps.googleusercontent.com">
+       clientId="571491919599-5d70sungr710os27frh9kjs85gr0af42.apps.googleusercontent.com">
       <GoogleLogin
         type="submit"
         onSuccess={res => {
