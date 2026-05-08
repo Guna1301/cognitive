@@ -166,7 +166,7 @@ const Autisam = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between mt-6">
+              <div className="flex justify-between gap-4 mt-6">
                 <button
                   type="button"
                   onClick={handlePrev}
