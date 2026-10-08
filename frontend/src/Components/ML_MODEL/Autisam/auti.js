@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from "../../../context/AuthContext";
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api";
 const REACT_APP_PREDICTION_URL = process.env.REACT_APP_PREDICTION_URL || "http://localhost:8089";
 const Autisam = () => {
@@ -63,13 +63,13 @@ const Autisam = () => {
   const [Prediction, setPrediction] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const { currentUser } = useAuth();
   const [signup, isSignup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const name = localStorage.getItem("name");
-    isSignup(name !== null && name !== '');
-  }, []);
+    isSignup(currentUser !== null);
+  }, [currentUser]);
 
   const handleRadioChange = (option) => {
     setAnswers((prev) => {
@@ -109,8 +109,8 @@ const Autisam = () => {
       setSubmitted(true);
 
       await axios.post(`${REACT_APP_BACKEND_URL}/autisam`, {
-        name: localStorage.getItem('name'),
-        email: localStorage.getItem('email'),
+        name: currentUser.name,
+        email: currentUser.email,
         score: score,
       });
     } catch (err) {

@@ -1,7 +1,10 @@
 const express = require('express');
+require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const cookieParser = require('cookie-parser');
+
 const loginroute = require("./api/Routes/users.js");
 const authroute = require("./api/Routes/auth.js");
 const autisamroute = require("./api/Routes/autisam.js");
@@ -11,23 +14,37 @@ const chatRoute = require("./api/Routes/chat.js");
 const { loginUser } = require("./api/models/loginuser.js");
 const { Activity } = require("./api/models/activity.js");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const nodemailer = require('nodemailer')
 const app = express();
-require('dotenv').config(); 
 app.use(cors({
   origin: ['https://cognitive-omega.vercel.app',"http://localhost:3000","https://brainwaveprod.vercel.app"],
-
+  credentials: true
 }));
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+app.use(cookieParser());
 const PORT = 5000;
 app.use(bodyParser.json());
 app.use(express.json())
 const User = require("./api/models/user.js");
+
+const authenticateRequest = async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token || !process.env.JWT_PRIVATE_KEY) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+    const user = await loginUser.findById(decoded._id).select('_id email');
+    if (!user) {
+      return res.status(401).json({ message: 'Not authenticated' });
+    }
+    req.auth = { ...decoded, email: user.email };
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
@@ -39,19 +56,22 @@ app.use("/api/dislexia", dislexiaroute)
 app.use("/api/activity", activityroute)
 app.use("/api/chat", chatRoute);
 
-app.post('/api/users', async (req, res) => {
+app.post('/api/users', authenticateRequest, async (req, res) => {
   try {
-    const newUser = new User(req.body);
+    if (req.body.email.toLowerCase() !== req.auth.email?.toLowerCase()) {
+      return res.status(403).json({ message: 'You can only create your own profile' });
+    }
+    const newUser = new User({ ...req.body, email: req.auth.email });
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-app.post('/updateUser', async(req, res) => {
+app.post('/updateUser', authenticateRequest, async(req, res) => {
   const {id, fname, lname, email, dob, age, gender, adress, contact, education, city, state, pincode} = req.body
   try{
-    await User.updateOne({_id: id},{
+    const result = await User.updateOne({_id: id, email: req.auth.email},{
       $set: {
         fname: fname,
         lname: lname,
@@ -67,6 +87,9 @@ app.post('/updateUser', async(req, res) => {
         pincode: pincode
       }
     })
+    if (result.matchedCount === 0) {
+      return res.status(404).json({status: "error", data: "Profile not found"});
+    }
     return res.json({status: "ok", data: "Updated"})
   }
   catch(error) {
@@ -74,146 +97,36 @@ app.post('/updateUser', async(req, res) => {
   }
 })
 
-app.get("/getusers", async (req, res) => {
-  try {
-    const allUser = await User.find({})
-    res.send({allUser})
-  } catch (error) {
-    console.log(error)
+// app.get("/getusers", async (req, res) => {
+//   try {
+//     const allUser = await User.find({})
+//     res.send({allUser})
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })
+app.get("/user-details/:email", authenticateRequest, async (req, res) => {
+  const email = req.params.email.toLowerCase();
+  if (email !== req.auth.email?.toLowerCase()) {
+    return res.status(403).json({ message: 'You can only view your own profile' });
   }
-})
-app.get("/user-details/:email", async (req, res) => {
-  const email = req.params.email;
   try {
-    const userDetails = await User.findOne({ email: email });
+    const userDetails = await User.findOne({ email }).select('-__v');
     res.json(userDetails);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })
 
-app.get("/getemail", async (req, res) => {
-	try {
-	  const allEmail = await loginUser.find({})
-	  res.send({allEmail})
-	} catch (error) {
-	  console.log(error)
-	}
-})
+// app.get("/getemail", async (req, res) => {
+// 	try {
+// 	  const allEmail = await loginUser.find({})
+// 	  res.send({allEmail})
+// 	} catch (error) {
+// 	  console.log(error)
+// 	}
+// })
 
-app.post('/reset-password/:id/:token', (req, res) => {
-  const {id, token} = req.params
-  const {password} = req.body
-
-  jwt.verify(token, "jJPh462VRjobOmXgzElwt2t7pYiq7zCm", (err, decoded) => {
-      if(err) {
-          return res.json({Status: "Error with token"})
-      } else {
-          bcrypt.hash(password, 10)
-          .then(hash => {
-              loginUser.findByIdAndUpdate({_id: id}, {password: hash})
-              .then(u => res.send({Status: "Success"}))
-              .catch(err => res.send({Status: err}))
-          })
-          .catch(err => res.send({Status: err}))
-      }
-  })
-})
-
-app.post('/forgot-password', (req, res) => {
-  const {email} = req.body;
-  loginUser.findOne({email: email})
-  .then(user => {
-      if(!user) {
-          return res.send({Status: "User not existed"})
-      } 
-      const token = jwt.sign({id: user._id}, "jJPh462VRjobOmXgzElwt2t7pYiq7zCm", {expiresIn: "1d"})
-      var transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'kbhanu5125@gmail.com',
-            pass: 'jfmg zubn bxub gyyi'
-          }
-        });
-        
-        var mailOptions = {
-          from: 'kbhanu5125@gmail.com',
-          to: email,
-          subject: 'Reset Password Link',
-          text: "https://final-ps.vercel.app/reset_password/" + user._id + "/" + token 
-        };
-        
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log(error);
-          } else {
-            return res.send({Status: "Success"})
-          }
-        });
-  })
-})
-
-app.post('/api/exchange-code', async (req, res) => {
-  const { code } = req.body;
-
-  try {
-    const response = await fetch('https://github.com/login/oauth/access_token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-
-        Accept: 'application/json', // Specify JSON response format
-      },
-      body: JSON.stringify({
-        client_id: 'a9c2dea3c6f7faa3ddd5',
-        client_secret: '652fa2382702d0bcd5a032e92debc226a260e979',
-        code,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const accessToken = data.access_token;
-
-      // Fetch user details using the obtained access token
-      const userResponse = await fetch('https://api.github.com/user', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (userResponse.ok) {
-        const userData = await userResponse.json();
-        res.status(200).json({ user: userData });
-      } else {
-        res.status(500).json({ error: 'Error fetching user data from GitHub API' });
-      }
-    } else {
-      res.status(500).json({ error: 'Error exchanging code for access token' });
-    }
-  } catch (error) {
-    console.error('Error exchanging code for access token:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-app.get('/microsoft/user', async (req, res) => {
-  const { authorization } = req.headers;
-
-  try {
-    const userResponse = await fetch('https://graph.microsoft.com/v1.0/me', {
-      headers: {
-        Authorization: authorization,
-      },
-    });
-
-    const user = await userResponse.json();
-    res.json(user);
-  } catch (error) {
-    console.error('Microsoft User Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
 
 app.get("/activityset/:email", async (req, res) => {

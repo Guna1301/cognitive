@@ -146,7 +146,7 @@ function DSurvey() {
         console.log(answers)
       //const selectedOption = answers[currentQuestionIndex];
       const modelValues = answers.map((selectedOption, index) => (
-        selectedOption === "No-never" || selectedOption === "No" ? 4 : (selectedOption === "Sometimes" || selectedOption === "Unknown" ? 2 : 0)
+        selectedOption === "No-never" || selectedOption === "No" ? 4 : (selectedOption === "Sometimes" || selectedOption === "Unknow" ? 2 : 0)
       ));
     
       try {

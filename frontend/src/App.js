@@ -2,13 +2,10 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
 
-
 import TopNavbar from "./Components/Navbar/Navbar";
 import Sidebar from "./Components/Dashboard/sidebar";
 
 import AuthForm from "./Components/accountBox/Authform";
-import ForgotPassword from "./Components/accountBox/Forgotpass";
-import ResetPassword from "./Components/accountBox/Resetpass";
 
 import UserForm from "./Components/Profile/profileform";
 import ProfilePage from "./Components/Profile/profile";
@@ -36,35 +33,14 @@ import DResult from "./Components/ML_MODEL/Dyslexia/templates/result";
 import Page from "./Components/diseases/page";
 
 import "./Components/Css/loginform.css";
-import { useState } from "react";
-import { useEffect } from "react";
 
 function App() {
-    const [signup, isSignup] = useState(false);
-    useEffect(() => { 
-        if (localStorage.getItem("name") !== null ){
-          isSignup(true)
-        }
-        if (localStorage.getItem("name") === ''){
-          isSignup(false)
-        }
-      }, [])
-  
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <BrowserRouter>
         <Analytics />
         <TopNavbar />
         <GradioButton />
-        {
-          signup && (
-            <div>
-
-            </div>
-            
-          )
-
-        }
         <Routes>
           {/* Main Landing */}
           <Route path="/" element={<FirstLayout />} />
@@ -120,8 +96,6 @@ function App() {
 
           {/* Auth */}
           <Route path="/login" element={<AuthForm />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset_password/:id/:token" element={<ResetPassword />} />
 
           {/* ML Models */}
           <Route path="/autism" element={<Autisam />} />

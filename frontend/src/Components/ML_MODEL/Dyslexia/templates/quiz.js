@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./curve.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../context/AuthContext";
 import oimage from "../assets/o-image.png";
 import image0 from "../assets/0-image.png";
 import grapes from "../assets/grapeimg.png";
@@ -35,15 +36,11 @@ function DQuiz() {
   const [animate, setAnimate] = useState(false);
   const [signup, isSignup] = useState(false);
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   useEffect(() => { 
-    if (localStorage.getItem("name") !== null ){
-      isSignup(true)
-    }
-    if (localStorage.getItem("name") === ''){
-      isSignup(false)
-    }
-  }, [])
+    isSignup(currentUser !== null);
+  }, [currentUser])
 
   const handleAgeSubmit = (e) => {
     e.preventDefault();
@@ -78,17 +75,16 @@ function DQuiz() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const selectedOption = answers[currentQuestionIndex];
-    const modelValues = answers.map((selectedOption) => (
-      selectedOption === "Always" || selectedOption === "Usually" ? 0 : 1
+    const modelValues = answers.map((selectedOption, index) => (
+      selectedOption === questions[index].answer ? 0 : 1
     ));
 
     try {
       const response = await axios.post(`${REACT_APP_PREDICTION_URL}/quizz`, {
         answers: modelValues,
-      }).then((res) => 
-      navigate("/DSurvey", { state: { vals: res.data.scr } }),
-      setSubmitted(true));
+      });
+      setSubmitted(true);
+      navigate("/DSurvey", { state: { vals: response.data.scr } });
     } catch (error) {
       console.error("Error submitting quiz:", error);
     }
@@ -439,7 +435,7 @@ function DQuiz() {
                       questions[currentQuestionIndex].mp3 !== "null") && (
                       <div className="flex flex-col md:flex-row gap-4 items-center mb-4">
                         {questions[currentQuestionIndex].mp3 !== "null" && (
-                          <audio controls className="w-full">
+                          <audio key={`audio-${questions[currentQuestionIndex].id}`} controls className="w-full">
                             <source src={questions[currentQuestionIndex].mp3} type="audio/mpeg" />
                             Your browser does not support the audio element.
                           </audio>
@@ -462,8 +458,8 @@ function DQuiz() {
                     )}
 
                     <div className="flex flex-col gap-2">
-                      {questions[currentQuestionIndex].options.map((option, index) => (
-                        <label key={index} className="flex items-center gap-2">
+                      {questions[currentQuestionIndex].options.map((option) => (
+                        <label key={option} className="flex items-center gap-2">
                           <input
                             type="radio"
                             id={option}

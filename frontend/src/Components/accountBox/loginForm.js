@@ -1,72 +1,25 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate} from 'react-router-dom'
+import React, { useState } from "react";
+import { useNavigate} from 'react-router-dom'
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import aJwtDecode from "./authi";
 import styles from "./styles.module.css";
 import './AuthForm.css';
-
+import { useAuth } from "../../context/AuthContext";
 const SignInForm = () => {
 
   const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
-  const [loginemail, setloginemail] = useState()
-  const [userData, setUserData] = useState([]);
-  const l = []
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { login, loginWithGoogle } = useAuth();
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
-  useEffect(() =>{
-    fetch("https://cognitive-backend.onrender.com/getemail", {
-      method: "GET",
-      crossDomain: true,
-        headers: {
-            "Content-Type": "application/json",
-            Accept: true,
-            "Access-Control-Allow-Credentials": true,
-        },
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      setloginemail(data.allEmail)
-    })
-
-    fetch("https://cognitive-backend.onrender.com/getusers", {
-      method: "GET",
-      crossDomain: true,
-        headers: {
-            "Content-Type": "application/json",
-            Accept: true,
-            "Access-Control-Allow-Credentials": true,
-        },
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      setUserData(data.allUser)
-    })
-  },[])
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "https://cognitive-backend.onrender.com/api/auth";
-			const { data: res } = await axios.post(url, data);
-			localStorage.setItem("token", res.data);
-      const decodedToken = aJwtDecode();
-      const { _id } = decodedToken;
-
-      loginemail.filter(person => person._id === _id).map((i) => {
-          localStorage.setItem("email", i.email)
-          localStorage.setItem("name", i.name)
-          l.unshift(i.email)
-          navigate("/")
-          return(i)
-      })
+			await login(data.email, data.password);
+      navigate("/");
 		} catch (error) {
 			if (
 				error.response &&
@@ -77,36 +30,6 @@ const SignInForm = () => {
 			}
 		}
 	};
-
-  const onSuccess = async (response) => {
-    try {
-      const exchangeResponse = await fetch('https://cognitive-backend.onrender.com/api/exchange-code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          code: response.code,
-        }),
-      });
-
-      if (exchangeResponse.ok) {
-        const userData = await exchangeResponse.json();
-        localStorage.setItem("name", userData.user.name != null?(userData.user.name) : userData.user.login)
-        localStorage.setItem("email", userData.user.email)
-        navigate("/")
-
-      } else {
-        console.error('Error exchanging code for access token:', exchangeResponse.statusText);
-      }
-    } catch (error) {
-      console.error('Error exchanging code for access token:', error);
-    }
-  };
-
-  const onFailure = (response) => {
-    console.error('GitHub login failed:', response);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="sign-in-form2">
@@ -121,59 +44,26 @@ const SignInForm = () => {
       </div>
       {error && <div className={styles.error_msg}>{error}</div>}
       <button type="submit" className="btn solid" >Login</button>
-      <Link to="/forgot-password">Forgot Password</Link>
       <p className="social-text">Or</p>
       <GoogleOAuthProvider 
-       clientId="571491919599-5d70sungr710os27frh9kjs85gr0af42.apps.googleusercontent.com">
+       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <GoogleLogin
-        type="submit"
-        onSuccess={res => {
-          var decode = jwtDecode(res.credential)
-          localStorage.setItem("name", decode.name)
-          localStorage.setItem("email", decode.email)
-          navigate("/")
+        onSuccess={async res => {
+          try {
+            await loginWithGoogle(res.credential);
+            navigate("/");
+          } catch (err) {
+            setError("Google login failed.");
+          }
         }}
         onError={() => {
           console.log('Login Failed');
+          setError("Google login failed.");
         }}
         useOneTap
-      >
-      </GoogleLogin>
+      />
       </GoogleOAuthProvider>
-      {/* <div className="social-media">
-        <div className="social-icon">
-      <FacebookLogin
-        className="git"
-            appId="257585390568552"
-        onSuccess={(response) => {
-          console.log('Login Success!', response);
-        }}
-        onFail={(error) => {
-          console.log('Login Failed!', error);
-        }}
-        onProfileSuccess={(response) => {
-          console.log('Get Profile Success!', response);
-          localStorage.setItem("name", response.name)
-          localStorage.setItem("email", response.email)
-          navigate("/")
-        }}
-        >
-          <button style={{backgroundImage:"url('https://freepngimg.com/thumb/facebook/62487-bluetie-icons-computer-facebook-login-icon-email.png')",backgroundSize:"cover", border:"none", padding:"0", borderRadius:"50%", width:"50px", height:"50px"}}></button>
-        </FacebookLogin>
-        </div>
-        <div style={{height:"10px",marginTop:"20px"}}>
-      <MicrosoftLogin
-         clientId="1b35cd14-f54b-4c74-871a-429a90886ae4"
-        authCallback={handleMicrosoftLogin}
-        onError={(error) => console.error('Microsoft Login Failure:', error)}
-      >  
-      <button style={{backgroundImage:"url('https://vectorified.com/images/microsoft-icon-free-36.png')",backgroundSize:"cover", border:"none", padding:"0", borderRadius:"50%", width:"50px", height:"50px"}}></button>
-      </MicrosoftLogin>
-      </div>
-      </div> */}
-
     </form>
   );
 };
-//https://final-ps.vercel.app/api/exchange-code
 export default SignInForm;

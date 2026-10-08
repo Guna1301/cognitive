@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import styles from "./styles.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 const SignUpForm = () => {
 
@@ -12,6 +14,7 @@ const SignUpForm = () => {
 	});
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
+  const { login, loginWithGoogle } = useAuth();
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -19,27 +22,28 @@ const SignUpForm = () => {
 
 	const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
     if (!passwordRegex.test(data.password)) {
       setError("Password must contain at least one capital letter and be at least 8 characters long.");
+      return;
     }
-    else{
-		try {
-			const url = "https://cognitive-backend.onrender.com/api/loginusers";
-			await axios.post(url, data);
-			navigate("/Successpage");
+    if (data.password !== data.cpassword) {
+      setError("Passwords do not match.");
+      return;
+    }
 
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-      console.log(error)
-		}
-  }
+    try {
+      await axios.post("http://localhost:5000/api/loginusers", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
+      await login(data.email, data.password);
+      navigate("/Successpage");
+    } catch (error) {
+      setError(error.response?.data?.message || "Unable to create your account.");
+    }
 	};
 
 
@@ -48,22 +52,42 @@ const SignUpForm = () => {
       <h2 className="title">Sign up</h2>
       <div className="input-field">
         <i className="fas fa-user"></i>
-        <input onChange={handleChange} type="text" placeholder="Name" name="name" />
+        <input onChange={handleChange} type="text" placeholder="Name" name="name" required />
       </div>
       <div className="input-field">
         <i className="fas fa-envelope"></i>
-        <input onChange={handleChange} type="email" placeholder="Email" name="email" />
+        <input onChange={handleChange} type="email" placeholder="Email" name="email" required />
       </div>
       <div className="input-field">
         <i className="fas fa-lock"></i>
-        <input onChange={handleChange} type="password" placeholder="Password" name="password" />
+        <input onChange={handleChange} type="password" placeholder="Password" name="password" required />
       </div>
       <div className="input-field">
         <i className="fas fa-lock"></i>
-        <input type="password" placeholder="Confirm Password" name="cpassword" />
+        <input onChange={handleChange} type="password" placeholder="Confirm Password" name="cpassword" required />
       </div>
       {error && <div className={styles.error_msg}>{error}</div>}
       <button type="submit" className="btn">Sign Up</button>
+
+      <p className="social-text">Or</p>
+
+      <GoogleOAuthProvider
+       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <GoogleLogin
+        onSuccess={async res => {
+          try {
+            await loginWithGoogle(res.credential);
+            navigate("/");
+          } catch (err) {
+            setError("Google sign up failed.");
+          }
+        }}
+        onError={() => {
+          setError("Google sign up failed.");
+        }}
+        useOneTap
+      />
+      </GoogleOAuthProvider>
     </form>
   );
 };

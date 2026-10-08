@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 // import { useTheme } from "../context/ThemeContext";
 import logo2 from "../Navbar/logo.svg";
 import user_icon from "../Navbar/user-circle.png";
@@ -7,47 +8,38 @@ import user_icon from "../Navbar/user-circle.png";
 function TopNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { currentUser, logout } = useAuth();
   // const { isDark, setIsDark } = useTheme();
 
-  const [propt, setpropert] = useState(localStorage.getItem("name"));
-  const [signup, isSignup] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const isHidden = location.pathname.toLowerCase() === "/login";
 
-  useEffect(() => {
-    const name = localStorage.getItem("name");
-    setpropert(name);
-    isSignup(name !== null && name !== "");
-    setIsHidden(location.pathname === "/Login");
-  }, [location]);
-
-  function handleLogout() {
-    localStorage.clear();
-    isSignup(false);
+  async function handleLogout() {
+    await logout();
     navigate("/");
   }
 
   return (
     <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between shadow-md ">
-      <a href="/" className="flex items-center text-xl font-bold text-gray-800 dark:text-white tracking-wide">
+      <Link to="/" className="flex items-center text-xl font-bold text-gray-800 dark:text-white tracking-wide">
         <img src={logo2} className="h-12 mr-3 rounded-lg" alt="logo" />
         BRAINWAVE
-      </a>
+      </Link>
 
       {!isHidden && (
         <div className="flex items-center gap-6">
-          <a href="/" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
+          <Link to="/" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
             Home
-          </a>
+          </Link>
 
-          {signup ? (
+          {currentUser ? (
             <>
-              <a href="/Dashboard" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
+              <Link to="/Dashboard" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
                 Dashboard
-              </a>
-              <a href="/gamepage" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
+              </Link>
+              <Link to="/gamepage" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
                 Activities
-              </a>
+              </Link>
 
               <div className="relative">
                 <img
@@ -60,7 +52,7 @@ function TopNavbar() {
                 {isDropdownOpen && (
                 <div className="absolute right-0 mt-3 w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl p-4 z-50">
                   <p className="text-sm text-gray-600 dark:text-gray-300">Welcome back,</p>
-                  <p className="text-md font-semibold text-gray-800 dark:text-white truncate">{propt}</p>
+                  <p className="text-md font-semibold text-gray-800 dark:text-white truncate">{currentUser.name}</p>
                   
                   <button
                     onClick={handleLogout}
@@ -76,9 +68,9 @@ function TopNavbar() {
               </div>
             </>
           ) : (
-            <a href="/Login" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
+            <Link to="/login" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">
               Login
-            </a>
+            </Link>
           )}
         </div>
       )}
