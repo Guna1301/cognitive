@@ -5,6 +5,8 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import styles from "./styles.module.css";
 import { useAuth } from "../../context/AuthContext";
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api";
+
 const SignUpForm = () => {
 
   const [data, setData] = useState({
@@ -34,7 +36,7 @@ const SignUpForm = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/loginusers", {
+      await axios.post(`${backendUrl}/loginusers`, {
         name: data.name,
         email: data.email,
         password: data.password,

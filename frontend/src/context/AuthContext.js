@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
+const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api";
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -14,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/auth/me'); // Or use process.env.REACT_APP_BACKEND_URL
+      const { data } = await axios.get(`${backendUrl}/auth/me`);
       setCurrentUser(data.user);
       localStorage.setItem("name", data.user.name);
       localStorage.setItem("email", data.user.email);
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const { data } = await axios.post('http://localhost:5000/api/auth', { email, password });
+    const { data } = await axios.post(`${backendUrl}/auth`, { email, password });
     setCurrentUser(data.user);
     localStorage.setItem("name", data.user.name);
     localStorage.setItem("email", data.user.email);
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loginWithGoogle = async (credential) => {
-    const { data } = await axios.post('http://localhost:5000/api/auth/google', { credential });
+    const { data } = await axios.post(`${backendUrl}/auth/google`, { credential });
     setCurrentUser(data.user);
     localStorage.setItem("name", data.user.name);
     localStorage.setItem("email", data.user.email);
@@ -46,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await axios.post('http://localhost:5000/api/auth/logout');
+    await axios.post(`${backendUrl}/auth/logout`);
     setCurrentUser(null);
     // Clear any residual local storage items that the app might still rely on
     localStorage.removeItem("name");
